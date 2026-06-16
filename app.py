@@ -287,104 +287,202 @@ with st.expander("Variables del Modelo"):
 
 with st.expander("Codigo Octave (descargable)"):
     codigo_octave = """% Tanque calefaccionado con serpentin
-% Modelo unificado para Octave
+% Tanque calefaccionado con serpentin
+% Curva caracteristica de la valvula: lineal
+% En X estan las variables de estado.
+% En Y estan las variables que se requieren en las ODEs o que se quieren graficar.
 
 clear all; close all; clc;
 
-disp('Simulador de Tanque calefaccionado');
+disp('Simulador de Tanque calefaccionado con serpentin');
+disp('');
 
-% =============== PARAMETROS ===============
-F0 = 2e-3;          % Caudal entrada (m³/s)
-A = 0.785;          % Area (m²)
-Cv = 4.039e-5;      % Coef. valvula
-rho = 1000;         % Densidad (kg/m³)
-g = 9.81;           % Gravedad (m/s²)
-Cp = 4187;          % Calor especifico (J/kg°C)
-T0 = 25;            % Temp. entrada (°C)
-Tv = 132;           % Temp. vapor (°C)
-Wa = 2000;          % Potencia agitador (W)
-T_initial = 60;     % Temp. inicial (°C)
-L0 = 1;             % Nivel inicial (m)
-L_max = 2;          % Nivel maximo (m)
-x0 = 0.5;           % Apertura inicial
-xf = 0.25;          % Apertura final
+% =============== MODELO =================
 
-% Calculo de UA
-UA = -(F0*rho*Cp*(T0-T_initial) + Wa)/(Tv-T_initial);
-
-% Funciones
-function f = f_apertura(x)
-    f = x;  % Lineal
-endfunction
-
-function F = caudal(L, x, Cv, rho, g)
-    F = Cv * x * sqrt(rho * g * max(L, 0.001));
-endfunction
-
-function dX = modelo(t, X)
-    L = X(1);
-    T = X(2);
+% ODEs
+function dX = ODEs(t, X)
+    % En dX devuelve el vector columna de derivadas
     
-    F = caudal(L, xf, Cv, rho, g);
-    Q = UA * (Tv - T);
+    % Recupera variables X
+    [L, T] = num2cell(X'){1,:};
     
+    % Recupera variables Y
+    Y = AEs(t, X);
+    [A, F0, F, rho, Cp, T0, Q, Wa] = num2cell(Y){1,:};
+    
+    % Ecuaciones diferenciales
     dL = (F0 - F) / A;
     dT = (F0*rho*Cp*(T0-T) + Q + Wa) / (A*L*rho*Cp);
     
-    dX = [dL; dT];
+    dX = [dL; dT]; % vector columna
 endfunction
 
+% AEs
+function Y = AEs(t, X)
+    % En Y devuelve el vector fila de variables requeridas por ODEs o a graficar.
+    
+    % Recupera variables X
+    [L, T] = num2cell(X'){1,:};
+    
+    % Parametros fijos
+    F0 = 2e-3;          % Caudal de entrada (m³/s)
+    A = 0.785;          % Area del tanque (m²)
+    Cv = 4.039e-5;      % Coeficiente de valvula
+    rho = 1000;         % Densidad (kg/m³)
+    g = 9.81;           % Gravedad (m/s²)
+    Cp = 4.187e3;       % Calor especifico (J/kg°C)
+    T0 = 25;            % Temperatura de entrada (°C)
+    Tv = 132;           % Temperatura del vapor (°C)
+    Wa = 2000;          % Potencia del agitador (W)
+    
+    % Calculo de UA (se calcula una sola vez con condicion inicial)
+    % Se usa el modelo estacionario para Tini = 60°C y Lini = 1m
+    % 0 = F0*rho*Cp*(T0-Tini) + UA*(Tv-Tini) + Wa
+    % Despejando UA:
+    Tini = 60;          % Temperatura inicial (°C)
+    Lini = 1;           % Nivel inicial (m)
+    UA = -(F0*rho*Cp*(T0-Tini) + Wa) / (Tv - Tini);
+    % UA ≈ 4.04e3 W/°C (como tenias)
+    
+    % Ecuaciones algebraicas
+    if t < 0
+        x = 0.5;        % Apertura inicial
+    else
+        x = 0.25;       % Apertura final (perturbacion)
+    endif
+    
+    F = Cv * x * sqrt(rho * g * L);
+    Q = UA * (Tv - T);
+    
+    Y = [A, F0, F, rho, Cp, T0, Q, Wa];
+endfunction
+
+% =============== INICIALIZACION ===============
+
+function [tfin, dt, Xini, LX, LY] = inicializacion()
+    % Inicializa la simulacion
+    
+    % Parametros de simulacion
+    tfin = 1100;        % tiempo final (s)
+    dt = 10;            % paso temporal (s)
+    
+    % Inicializacion (estado estacionario anterior)
+    Lini = 1;           % nivel inicial (m)
+    Tini = 60;          % temperatura inicial (°C)
+    Xini = [Lini; Tini]; % variable de estado
+    
+    % Leyendas
+    LX = {'L', 'T'};                         % variables X
+    LY = {'A', 'F0', 'F', 'rho', 'Cp', 'T0', 'Q', 'Wa'};  % variables Y
+endfunction
+
+% =============== FUNCIONES DE POST-PROCESAMIENTO ===============
+
+function v = vector(leyenda, LX, LY, tpts, X, Y)
+    % Devuelve el vector columna correspondiente a la variable leyenda.
+    
+    indicex = find(strcmp(LX, leyenda));
+    if length(indicex) == 1
+        v = X(:, indicex);
+    else
+        indicey = find(strcmp(LY, leyenda));
+        if length(indicey) == 1
+            v = Y(:, indicey);
+        else
+            disp(['Error: Variable "' leyenda '" no encontrada.']);
+            error('Variable no encontrada');
+        endif
+    endif
+endfunction
+
+function graficar(LV, titulo, rotulox, rotuloy, limitesy, LX, LY, tpts, X, Y)
+    % Crea una figura
+    % LV: Arreglo de celdas fila con las leyendas de las variables a graficar.
+    % titulo: Titulo de la figura.
+    % rotulox: Rotulo para la abscisa.
+    % rotuloy: Rotulo para la ordenada.
+    % limitesy: Vector fila con limite inferior y superior (opcional).
+    
+    colores = ['r', 'g', 'b', 'c', 'm', 'y', 'k'];
+    
+    figure;
+    hold on;
+    
+    for i = 1:length(LV)
+        v = vector(LV{i}, LX, LY, tpts, X, Y);
+        plot(tpts, v, colores(mod(i-1, length(colores)) + 1), 'LineWidth', 2);
+    endfor
+    
+    title(titulo);
+    xlabel(rotulox);
+    ylabel(rotuloy);
+    
+    if nargin >= 6 && ~isempty(limitesy)
+        ylim(limitesy);
+    endif
+    
+    grid on;
+    legend(LV, 'Location', 'northeast');
+endfunction
+
+function [tpts, X, Y] = simulacion(tfin, dt, Xini)
+    % Realiza la simulacion
+    
+    % Resolucion temporal
+    nts = ceil(tfin/dt + 1);
+    tpts = linspace(0, tfin, nts)';
+    
+    % Resolver ODEs
+    [tpts, X] = ode15s(@ODEs, tpts, Xini');
+    
+    % Calcular variables algebraicas
+    for i = 1:size(tpts, 1)
+        Y(i, :) = AEs(tpts(i), X(i, :)');
+    endfor
+endfunction
+
+% =============== ANALISIS ===============
+
+function analizar(LX, LY, tpts, X, Y)
+    % Analisis de resultados
+    
+    % Graficos
+    graficar({'L'}, 'Nivel vs. tiempo', 's', 'm', [], LX, LY, tpts, X, Y);
+    graficar({'F0', 'F'}, 'Caudales vs. tiempo', 's', 'm3/s', [0, 4e-3], LX, LY, tpts, X, Y);
+    graficar({'T'}, 'Temperatura vs. tiempo', 's', '°C', [0, 120], LX, LY, tpts, X, Y);
+    
+    % Deteccion de rebalse
+    L_max = 2;
+    Lt = vector('L', LX, LY, tpts, X, Y);
+    Tt = vector('T', LX, LY, tpts, X, Y);
+    
+    fprintf('\n========== RESULTADOS ==========\n');
+    fprintf('Nivel final: %.3f m\n', Lt(end));
+    fprintf('Nivel maximo permitido: %.2f m\n', L_max);
+    fprintf('Temperatura final: %.2f °C\n', Tt(end));
+    
+    if Lt(end) <= L_max
+        disp('El tanque NO rebalsa');
+    else
+        tr = interp1(Lt, tpts, L_max);
+        Tr = interp1(tpts, Tt, tr);
+        fprintf('El tanque rebalsa en t = %.1f s\n', tr);
+        fprintf('Temperatura de rebalse: %.1f °C\n', Tr);
+    endif
+endfunction
+
+% =============== SIMULACION PRINCIPAL ===============
+
+% Inicializacion
+[tfin, dt, Xini, LX, LY] = inicializacion();
+
 % Simulacion
-t = linspace(0, 1100, 1000)';
-X0 = [L0; T_initial];
-[t, X] = ode45(@modelo, t, X0);
+[tpts, X, Y] = simulacion(tfin, dt, Xini);
 
-L = X(:,1);
-T = X(:,2);
+% Analisis y resultados
+analizar(LX, LY, tpts, X, Y);
 
-% Graficos
-figure('Position', [100, 100, 1000, 800]);
-
-subplot(2,2,1);
-plot(t, L, 'b-', 'LineWidth', 2);
-hold on;
-yline(L_max, 'r--');
-xlabel('Tiempo (s)');
-ylabel('Nivel (m)');
-title('Evolucion del nivel');
-grid on;
-
-subplot(2,2,2);
-plot(t, T, 'r-', 'LineWidth', 2);
-xlabel('Tiempo (s)');
-ylabel('Temperatura (°C)');
-title('Evolucion de la temperatura');
-grid on;
-
-subplot(2,2,3);
-F = arrayfun(@(L) caudal(L, xf, Cv, rho, g), L);
-plot(t, F, 'r-', 'LineWidth', 2);
-hold on;
-yline(F0, 'g--');
-xlabel('Tiempo (s)');
-ylabel('Caudal (m³/s)');
-title('Caudales');
-grid on;
-
-subplot(2,2,4);
-Q = UA * (Tv - T);
-plot(t, Q, 'm-', 'LineWidth', 2);
-xlabel('Tiempo (s)');
-ylabel('Calor (W)');
-title('Transferencia de calor');
-grid on;
-
-% Resultados
-fprintf('\\n========== RESULTADOS ==========\\n');
-fprintf('Nivel final: %.3f m\\n', L(end));
-fprintf('Temperatura final: %.1f °C\\n', T(end));
-fprintf('Temperatura estacionaria: %.1f °C\\n', (F0*rho*Cp*T0 + UA*Tv + Wa)/(F0*rho*Cp + UA));
-
+disp('');
 disp('Simulacion finalizada.');
 """
     
