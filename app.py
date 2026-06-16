@@ -12,26 +12,26 @@ with st.sidebar:
     st.header("Datos Geometricos del Tanque")
     D = st.number_input("Diametro del tanque D (m)", value=1.0, min_value=0.3, max_value=5.0, step=0.05)
     A = np.pi * (D/2)**2
-    st.caption(f"Area calculada: {A:.4f} m²")
+    st.caption(f"Area calculada: {A:.4f} mÂ²")
     
     L0 = st.number_input("Nivel inicial L0 (m)", value=1.0, min_value=0.0, max_value=5.0, step=0.05)
     L_max = st.number_input("Nivel maximo (rebalse) L_max (m)", value=2.0, min_value=0.5, max_value=10.0, step=0.1)
     
     st.header("Datos de Operacion")
-    F0 = st.number_input("Caudal de entrada F0 (m³/s)", value=0.002, min_value=0.0001, max_value=0.1, format="%.5f")
+    F0 = st.number_input("Caudal de entrada F0 (mÂ³/s)", value=0.002, min_value=0.0001, max_value=0.1, format="%.5f")
     x0 = st.slider("Apertura inicial de valvula x0", 0.0, 1.0, 0.5, 0.01)
     xf = st.slider("Apertura final de valvula xf", 0.0, 1.0, 0.25, 0.01)
     
     st.header("Datos del Fluido")
-    rho = st.number_input("Densidad del fluido rho (kg/m³)", value=1000.0, min_value=500.0, max_value=2000.0, step=10.0)
-    Cp = st.number_input("Calor especifico Cp (J/kg°C)", value=4187.0, min_value=1000.0, max_value=8000.0, step=100.0)
-    T0 = st.number_input("Temperatura de entrada T0 (°C)", value=25.0, min_value=0.0, max_value=100.0, step=1.0)
+    rho = st.number_input("Densidad del fluido rho (kg/mÂ³)", value=1000.0, min_value=500.0, max_value=2000.0, step=10.0)
+    Cp = st.number_input("Calor especifico Cp (J/kgÂ°C)", value=4187.0, min_value=1000.0, max_value=8000.0, step=100.0)
+    T0 = st.number_input("Temperatura de entrada T0 (Â°C)", value=25.0, min_value=0.0, max_value=100.0, step=1.0)
     
     st.header("Datos del Serpentin")
-    Tv = st.number_input("Temperatura del vapor Tv (°C)", value=132.0, min_value=50.0, max_value=250.0, step=1.0)
+    Tv = st.number_input("Temperatura del vapor Tv (Â°C)", value=132.0, min_value=50.0, max_value=250.0, step=1.0)
     Wa = st.number_input("Potencia del agitador Wa (W)", value=2000.0, min_value=0.0, max_value=10000.0, step=100.0)
-    T_initial = st.number_input("Temperatura inicial T0 (°C)", value=60.0, min_value=0.0, max_value=150.0, step=1.0)
-    T_max_seguridad = st.number_input("Temperatura maxima de seguridad (°C)", value=80.0, min_value=30.0, max_value=150.0, step=1.0)
+    T_initial = st.number_input("Temperatura inicial T0 (Â°C)", value=60.0, min_value=0.0, max_value=150.0, step=1.0)
+    T_max_seguridad = st.number_input("Temperatura maxima de seguridad (Â°C)", value=80.0, min_value=30.0, max_value=150.0, step=1.0)
     
     st.header("Caracteristica de la Valvula")
     tipo_valvula = st.selectbox(
@@ -69,13 +69,13 @@ UA = -(F0 * rho * Cp * (T0 - T_initial) + Wa) / (Tv - T_initial)
 st.subheader("Parametros Calculados")
 col_a, col_b = st.columns(2)
 with col_a:
-    st.metric("Area del tanque A", f"{A:.4f} m²")
+    st.metric("Area del tanque A", f"{A:.4f} mÂ²")
     st.metric("Cv maximo", f"{Cv_max:.3e}")
-    st.metric("UA (serpentin)", f"{UA:.2f} W/°C")
+    st.metric("UA (serpentin)", f"{UA:.2f} W/Â°C")
 with col_b:
-    st.metric("Caudal de entrada F0", f"{F0:.5f} m³/s = {F0*1000:.2f} L/s")
+    st.metric("Caudal de entrada F0", f"{F0:.5f} mÂ³/s = {F0*1000:.2f} L/s")
     st.metric("Nivel inicial L0", f"{L0:.2f} m")
-    st.metric("Temperatura inicial T0", f"{T_initial:.1f} °C")
+    st.metric("Temperatura inicial T0", f"{T_initial:.1f} Â°C")
 
 # =============== MODELO MATEMATICO ===============
 def caudal_salida(L, x):
@@ -107,7 +107,7 @@ with col1:
     st.info("Estado Estacionario Final (xf)")
     st.write(f"Nivel: **{L_ss:.2f} m**")
     st.write(f"{'Rebalsa' if L_ss > L_max else 'No rebalsa'}")
-    st.write(f"Temperatura: **{T_ss:.1f} °C**")
+    st.write(f"Temperatura: **{T_ss:.1f} Â°C**")
     st.write(f"{'Peligro' if T_ss > T_max_seguridad else 'Seguro'}")
 
 with col2:
@@ -123,7 +123,7 @@ with col2:
 # Temperatura de rebalse (si aplica)
 if L_ss > L_max:
     T_rebalse = T_initial + (T_ss - T_initial) * (L_max - L0) / (L_ss - L0)
-    st.warning(f"Temperatura estimada de rebalse: **{T_rebalse:.1f} °C**")
+    st.warning(f"Temperatura estimada de rebalse: **{T_rebalse:.1f} Â°C**")
 
 # =============== SIMULACION DINAMICA ===============
 st.subheader("Simulacion Dinamica")
@@ -154,21 +154,21 @@ ax1.legend()
 # Temperatura
 ax2 = axes[0, 1]
 ax2.plot(t, T, 'r-', linewidth=2)
-ax2.axhline(y=T_max_seguridad, color='orange', linestyle='--', label=f'T_max_seg = {T_max_seguridad} °C')
-ax2.axhline(y=T_initial, color='gray', linestyle=':', alpha=0.5, label=f'T0 = {T_initial} °C')
-ax2.axhline(y=T_ss, color='g', linestyle='-.', alpha=0.5, label=f'T_ss = {T_ss:.1f} °C')
+ax2.axhline(y=T_max_seguridad, color='orange', linestyle='--', label=f'T_max_seg = {T_max_seguridad} Â°C')
+ax2.axhline(y=T_initial, color='gray', linestyle=':', alpha=0.5, label=f'T0 = {T_initial} Â°C')
+ax2.axhline(y=T_ss, color='g', linestyle='-.', alpha=0.5, label=f'T_ss = {T_ss:.1f} Â°C')
 ax2.set_xlabel("Tiempo (s)")
-ax2.set_ylabel("Temperatura (°C)")
+ax2.set_ylabel("Temperatura (Â°C)")
 ax2.set_title("Evolucion de la temperatura")
 ax2.grid(True, alpha=0.3)
 ax2.legend()
 
 # Caudales
 ax3 = axes[1, 0]
-ax3.plot(t, np.ones_like(t)*F0, 'g--', linewidth=2, label=f'F0 = {F0:.5f} m³/s')
+ax3.plot(t, np.ones_like(t)*F0, 'g--', linewidth=2, label=f'F0 = {F0:.5f} mÂ³/s')
 ax3.plot(t, F, 'r-', linewidth=2, label='F (salida)')
 ax3.set_xlabel("Tiempo (s)")
-ax3.set_ylabel("Caudal (m³/s)")
+ax3.set_ylabel("Caudal (mÂ³/s)")
 ax3.set_title("Caudales de entrada y salida")
 ax3.grid(True, alpha=0.3)
 ax3.legend()
@@ -204,9 +204,9 @@ col_r1, col_r2, col_r3, col_r4 = st.columns(4)
 with col_r1:
     st.metric("Nivel final", f"{L_final:.3f} m", delta=f"{L_final - L0:.3f} m")
 with col_r2:
-    st.metric("Temperatura final", f"{T_final:.1f} °C", delta=f"{T_final - T_initial:.1f} °C")
+    st.metric("Temperatura final", f"{T_final:.1f} Â°C", delta=f"{T_final - T_initial:.1f} Â°C")
 with col_r3:
-    st.metric("Caudal salida final", f"{F[-1]:.5f} m³/s")
+    st.metric("Caudal salida final", f"{F[-1]:.5f} mÂ³/s")
 with col_r4:
     st.metric("Calor final", f"{Q[-1]:.1f} W")
 
@@ -217,15 +217,15 @@ col_alert1, col_alert2 = st.columns(2)
 with col_alert1:
     if tiempo_rebalse:
         st.error(f"Rebalse detectado en t = {tiempo_rebalse:.1f} s")
-        st.error(f"Temperatura de rebalse: {temperatura_rebalse:.1f} °C")
+        st.error(f"Temperatura de rebalse: {temperatura_rebalse:.1f} Â°C")
     else:
         st.success(f"Sin rebalse. Nivel maximo: {max(L):.3f} m")
 
 with col_alert2:
     if T_final > T_max_seguridad:
-        st.error(f"Temperatura final ({T_final:.1f} °C) supera el limite de seguridad ({T_max_seguridad} °C)")
+        st.error(f"Temperatura final ({T_final:.1f} Â°C) supera el limite de seguridad ({T_max_seguridad} Â°C)")
     else:
-        st.success(f"Temperatura segura. Maximo: {max(T):.1f} °C")
+        st.success(f"Temperatura segura. Maximo: {max(T):.1f} Â°C")
 
 st.subheader("Recomendaciones")
 
@@ -235,13 +235,13 @@ if xf < x_min:
     recomendaciones.append(f"Abrir la valvula al menos a x = {x_min:.4f} para evitar el rebalse.")
 
 if T_final > T_max_seguridad:
-    recomendaciones.append(f"Reducir la temperatura del vapor o aumentar la circulacion de agua. Temperatura actual: {T_final:.1f} °C")
+    recomendaciones.append(f"Reducir la temperatura del vapor o aumentar la circulacion de agua. Temperatura actual: {T_final:.1f} Â°C")
 
 if L_final > L_max * 0.9:
     recomendaciones.append(f"Nivel critico ({L_final:.2f} m). Monitorear constantemente.")
 
 if T_final > T_max_seguridad * 0.8:
-    recomendaciones.append(f"Temperatura elevada ({T_final:.1f} °C). Revisar sistemas de seguridad.")
+    recomendaciones.append(f"Temperatura elevada ({T_final:.1f} Â°C). Revisar sistemas de seguridad.")
 
 if recomendaciones:
     for rec in recomendaciones:
@@ -268,21 +268,21 @@ with st.expander("Variables del Modelo"):
     st.markdown("""
     | Simbolo | Descripcion | Unidad |
     |---------|-------------|--------|
-    | A | Area del tanque | m² |
+    | A | Area del tanque | mÂ² |
     | L | Nivel del liquido | m |
-    | T | Temperatura del liquido | °C |
-    | F0 | Caudal de entrada | m³/s |
-    | F | Caudal de salida | m³/s |
+    | T | Temperatura del liquido | Â°C |
+    | F0 | Caudal de entrada | mÂ³/s |
+    | F | Caudal de salida | mÂ³/s |
     | Cv | Coeficiente de valvula | - |
     | f(x) | Caracteristica de valvula | - |
-    | rho | Densidad del fluido | kg/m³ |
-    | Cp | Calor especifico | J/kg°C |
-    | T0 | Temperatura de entrada | °C |
-    | Tv | Temperatura del vapor | °C |
-    | UA | Coeficiente global de transferencia | W/°C |
+    | rho | Densidad del fluido | kg/mÂ³ |
+    | Cp | Calor especifico | J/kgÂ°C |
+    | T0 | Temperatura de entrada | Â°C |
+    | Tv | Temperatura del vapor | Â°C |
+    | UA | Coeficiente global de transferencia | W/Â°C |
     | Q | Calor transferido | W |
     | Wa | Potencia del agitador | W |
-    | g | Gravedad | m/s² |
+    | g | Gravedad | m/sÂ² |
     """)
 
 with st.expander("Codigo Octave (descargable)"):
@@ -294,16 +294,16 @@ clear all; close all; clc;
 disp('Simulador de Tanque calefaccionado');
 
 % =============== PARAMETROS ===============
-F0 = 2e-3;          % Caudal entrada (m³/s)
-A = 0.785;          % Area (m²)
+F0 = 2e-3;          % Caudal entrada (mÂ³/s)
+A = 0.785;          % Area (mÂ²)
 Cv = 4.039e-5;      % Coef. valvula
-rho = 1000;         % Densidad (kg/m³)
-g = 9.81;           % Gravedad (m/s²)
-Cp = 4187;          % Calor especifico (J/kg°C)
-T0 = 25;            % Temp. entrada (°C)
-Tv = 132;           % Temp. vapor (°C)
+rho = 1000;         % Densidad (kg/mÂ³)
+g = 9.81;           % Gravedad (m/sÂ²)
+Cp = 4187;          % Calor especifico (J/kgÂ°C)
+T0 = 25;            % Temp. entrada (Â°C)
+Tv = 132;           % Temp. vapor (Â°C)
 Wa = 2000;          % Potencia agitador (W)
-T_initial = 60;     % Temp. inicial (°C)
+T_initial = 60;     % Temp. inicial (Â°C)
 L0 = 1;             % Nivel inicial (m)
 L_max = 2;          % Nivel maximo (m)
 x0 = 0.5;           % Apertura inicial
@@ -357,7 +357,7 @@ grid on;
 subplot(2,2,2);
 plot(t, T, 'r-', 'LineWidth', 2);
 xlabel('Tiempo (s)');
-ylabel('Temperatura (°C)');
+ylabel('Temperatura (Â°C)');
 title('Evolucion de la temperatura');
 grid on;
 
@@ -367,7 +367,7 @@ plot(t, F, 'r-', 'LineWidth', 2);
 hold on;
 yline(F0, 'g--');
 xlabel('Tiempo (s)');
-ylabel('Caudal (m³/s)');
+ylabel('Caudal (mÂ³/s)');
 title('Caudales');
 grid on;
 
@@ -382,8 +382,8 @@ grid on;
 % Resultados
 fprintf('\\n========== RESULTADOS ==========\\n');
 fprintf('Nivel final: %.3f m\\n', L(end));
-fprintf('Temperatura final: %.1f °C\\n', T(end));
-fprintf('Temperatura estacionaria: %.1f °C\\n', (F0*rho*Cp*T0 + UA*Tv + Wa)/(F0*rho*Cp + UA));
+fprintf('Temperatura final: %.1f Â°C\\n', T(end));
+fprintf('Temperatura estacionaria: %.1f Â°C\\n', (F0*rho*Cp*T0 + UA*Tv + Wa)/(F0*rho*Cp + UA));
 
 disp('Simulacion finalizada.');
 """
