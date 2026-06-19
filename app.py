@@ -36,18 +36,7 @@ with st.sidebar:
                style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
                 📧 ffede.zn@gmail.com
             </a>
-            <br>
-            <a href="https://www.linkedin.com/in/fede-franco-70a301418/" 
-               target="_blank"
-               style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
-                🔗 LinkedIn
-            </a>
-            <br>
-            <a href="https://github.com/ffedezn-cloud" 
-               target="_blank"
-               style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
-                🐙 GitHub
-            </a>
+           
         </div>
         """,
         unsafe_allow_html=True
