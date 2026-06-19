@@ -21,6 +21,37 @@ st.markdown(
 st.markdown("---")
 
 with st.sidebar:
+           # ===== INFORMACIÓN DEL DESARROLLADOR =====
+    st.markdown("---")
+    st.markdown(
+        """
+        <div style="text-align: center; padding: 10px 0;">
+            <p style="font-size: 0.75rem; color: #6c6c8a; margin-bottom: 2px;">
+                <strong>Federico Franco</strong>
+            </p>
+            <p style="font-size: 0.7rem; color: #8a8aaa; margin-bottom: 2px;">
+                Ingeniería Química
+            </p>
+            <a href="mailto:tu.email@gmail.com" 
+               style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
+                📧 ffede.zn@gmail.com
+            </a>
+            <br>
+            <a href="https://www.linkedin.com/in/fede-franco-70a301418/" 
+               target="_blank"
+               style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
+                🔗 LinkedIn
+            </a>
+            <br>
+            <a href="https://github.com/ffedezn-cloud" 
+               target="_blank"
+               style="font-size: 0.7rem; color: #6c6c8a; text-decoration: none;">
+                🐙 GitHub
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     st.header("Datos Geometricos del Tanque")
     D = st.number_input("Diametro del tanque D (m)", value=1.0, min_value=0.3, max_value=5.0, step=0.05)
     A = np.pi * (D/2)**2
