@@ -6,6 +6,18 @@ from scipy.integrate import odeint
 st.set_page_config(page_title="Simulador Tanque Calefaccionado", layout="wide")
 
 st.title("Simulador de Tanque Calefaccionado con Serpentin")
+# ====== IMAGEN DEL PROCESO  ======
+st.markdown(
+    f'''
+    <div style="text-align: center;">
+        <img src="https://raw.githubusercontent.com/ffedezn-cloud/tanque-calefaccionado/main/diagrama_calefaccionado.png" 
+             alt="Esquema del tanque" 
+             style="width: 70%; max-width: 700px; border: 1px solid #ddd; border-radius: 8px;">
+        <p style="font-size: 13px; color: #888; margin-top: 4px;">Esquema del tanque con descarga gravitatoria</p>
+    </div>
+    ''',
+    unsafe_allow_html=True
+)
 st.markdown("---")
 
 with st.sidebar:
