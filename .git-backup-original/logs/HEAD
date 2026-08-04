@@ -1,0 +1,32 @@
+0000000000000000000000000000000000000000 79e8ad4e72624cb7cff1adb8e37cc26f5adbdbd7 Federico Franco <ffede.zn@gmail.com> 1785246431 -0300	clone: from github.com:ffedezn-cloud/tanque-calefaccionado.git
+79e8ad4e72624cb7cff1adb8e37cc26f5adbdbd7 ebcba1f9aa6dec2dda7de37d7f7e8d53cbe189ad Federico Franco <ffede.zn@gmail.com> 1785249064 -0300	commit: Se adapta el caso a la plantilla
+ebcba1f9aa6dec2dda7de37d7f7e8d53cbe189ad 509f3966b355206c03b8ba69ba0cf6e1510d6bef Federico Franco <ffede.zn@gmail.com> 1785249644 -0300	commit: Se quita marcador de T estacionaria
+509f3966b355206c03b8ba69ba0cf6e1510d6bef a0e2c5caedc804f7437fd01ad07c4b7aff3964b9 Federico Franco <ffede.zn@gmail.com> 1785250779 -0300	commit: Modificado el modelo conceptual
+a0e2c5caedc804f7437fd01ad07c4b7aff3964b9 7a700550a3b4be0feebcaa9ec83f44b47653efd7 Federico Franco <ffede.zn@gmail.com> 1785251447 -0300	commit: Modificado modelo conceptual
+7a700550a3b4be0feebcaa9ec83f44b47653efd7 49f8c4c8a3e07bf4b13c9211fb19a996057ee3da Federico Franco <ffede.zn@gmail.com> 1785251555 -0300	commit: Modificado modelo conceptual
+49f8c4c8a3e07bf4b13c9211fb19a996057ee3da 06aec36319fab2ab80bde081a94f309ecfc5a2b8 Federico Franco <ffede.zn@gmail.com> 1785251676 -0300	commit: Corregido cierre de modelo conceptual
+06aec36319fab2ab80bde081a94f309ecfc5a2b8 cf103abc8d27412e90e92ca48a4adad48a38f0b8 Federico Franco <ffede.zn@gmail.com> 1785251745 -0300	commit: Corregido modelo conceptual
+cf103abc8d27412e90e92ca48a4adad48a38f0b8 2fcb77cc0e0cdb2b691765d3e20ecf25b463d55a Federico Franco <ffede.zn@gmail.com> 1785252002 -0300	commit: Corregido la parte de Análisis del EE
+2fcb77cc0e0cdb2b691765d3e20ecf25b463d55a e86392da83e5c694c6f0d753db80e8b704c6affa Federico Franco <ffede.zn@gmail.com> 1785253110 -0300	commit: Corregido perturbación de FO
+e86392da83e5c694c6f0d753db80e8b704c6affa 03c5ba92d71fdc67a4086f8f305a1f6a91b5f15f Federico Franco <ffede.zn@gmail.com> 1785253337 -0300	commit: Corregido error de funcion ODEs
+03c5ba92d71fdc67a4086f8f305a1f6a91b5f15f c335b025b940845773a9fdcd317f8430608960db Federico Franco <ffede.zn@gmail.com> 1785254364 -0300	commit: Se incorpora salto de F0
+c335b025b940845773a9fdcd317f8430608960db 21ae3a8fca9be55dff02064efdf943a9c073039a Federico Franco <ffede.zn@gmail.com> 1785254551 -0300	commit: Modificado tiempo de simulación
+21ae3a8fca9be55dff02064efdf943a9c073039a b91701e080a23efc7e6fb9025b3d4c1b3b15fa80 Federico Franco <ffede.zn@gmail.com> 1785254866 -0300	commit: Modificado tiempo de simulación
+b91701e080a23efc7e6fb9025b3d4c1b3b15fa80 1c8db95fd7f0e0c2e66c07775f1b5254a7a1583e Federico Franco <ffede.zn@gmail.com> 1785254975 -0300	commit: Cambiado el tiempo de simulaciómn
+1c8db95fd7f0e0c2e66c07775f1b5254a7a1583e 966e75a89bb241178141762cacb3aebafb608339 Federico Franco <ffede.zn@gmail.com> 1785597639 -0300	commit: Actualizar PDF
+966e75a89bb241178141762cacb3aebafb608339 4d586cdf1544fa4e6a8d4d2ad6bab439f64c47bb Federico Franco <ffede.zn@gmail.com> 1785597700 -0300	commit: interfaz mejorada
+4d586cdf1544fa4e6a8d4d2ad6bab439f64c47bb b0c503d7cbfc1e673d0949c5ab41a99fc4c2bc84 Federico Franco <ffede.zn@gmail.com> 1785598169 -0300	commit: interfaz mejorada
+b0c503d7cbfc1e673d0949c5ab41a99fc4c2bc84 31ec6ea3669294b88551aa5b9171c573c626b418 Federico Franco <ffede.zn@gmail.com> 1785598331 -0300	commit: interfaz mejorada
+31ec6ea3669294b88551aa5b9171c573c626b418 7c2d2d2794d633940f9855554a8fe2a6afd41606 Federico Franco <ffede.zn@gmail.com> 1785598474 -0300	commit: tratando de mejorar aspecto de la gráfica
+7c2d2d2794d633940f9855554a8fe2a6afd41606 5d63816693d2ee67b534bd3e9a8bc344d032e875 Federico Franco <ffede.zn@gmail.com> 1785598789 -0300	commit: interfaz mejorada
+5d63816693d2ee67b534bd3e9a8bc344d032e875 0247a9a34a4a266c4dc15945156999eb36676633 Federico Franco <ffede.zn@gmail.com> 1785598849 -0300	commit: Agregar plotly a requirements y actualizar app con gráficas interactivas
+0247a9a34a4a266c4dc15945156999eb36676633 5a1dbcf77a508a0dee3ee709573892e677ef3406 Federico Franco <ffede.zn@gmail.com> 1785599061 -0300	commit: graficas mejoradas
+5a1dbcf77a508a0dee3ee709573892e677ef3406 075d0f6c3dc3dac6af4f6e58e106535f811eea64 Federico Franco <ffede.zn@gmail.com> 1785599240 -0300	commit: graficas modificadas
+075d0f6c3dc3dac6af4f6e58e106535f811eea64 facd1955eef9c9302320e2c423428727d015b3c3 Federico Franco <ffede.zn@gmail.com> 1785599501 -0300	commit: gráficas mejoradas
+facd1955eef9c9302320e2c423428727d015b3c3 1e095a59d35109d95a94d632082ba67dd7d95c91 Federico Franco <ffede.zn@gmail.com> 1785599881 -0300	commit: Interfaz mejorada
+1e095a59d35109d95a94d632082ba67dd7d95c91 32ff8482242f1abd575c11ca5db5b3982c823d54 Federico Franco <ffede.zn@gmail.com> 1785600084 -0300	commit: mejorar aspecto
+32ff8482242f1abd575c11ca5db5b3982c823d54 5fe4d53ac77aa6bfeab1e117c65606e648ac81ed Federico Franco <ffede.zn@gmail.com> 1785723875 -0300	commit: formato cambiado
+5fe4d53ac77aa6bfeab1e117c65606e648ac81ed 067e4dfd2e3af96b4f4b3139ae9a515e65e571e5 Federico Franco <ffede.zn@gmail.com> 1785799170 -0300	commit: Profesionalizacion del repositorio
+067e4dfd2e3af96b4f4b3139ae9a515e65e571e5 09094cf2fa271a81ea2e2f5c41834e6058df0d6c Federico Franco <ffede.zn@gmail.com> 1785799567 -0300	commit: modificado cuerpo de readme
+09094cf2fa271a81ea2e2f5c41834e6058df0d6c d52dc8048a8bedb63b2425ef408fa7c912d6de1e Federico Franco <ffede.zn@gmail.com> 1785799642 -0300	commit: modificado cuerpo de readme
+d52dc8048a8bedb63b2425ef408fa7c912d6de1e f01be646a8f96421eb4352ca5d89563d4ad722c4 Federico Franco <ffede.zn@gmail.com> 1785799988 -0300	commit: actualizar ubicación de archivos
